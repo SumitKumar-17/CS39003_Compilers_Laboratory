@@ -1,0 +1,116 @@
+Generating Intermediate codes
+Block 1:
+	1   : x = 2024
+	2   : n = 0
+Block 2:
+	3   : iffalse (x != 1)  goto 16
+Block 3:
+	4   : $1 = x % 2
+	5   : iffalse ($1 == 1)  goto 11
+Block 4:
+	6   : $2 = 3 * x
+	7   : $3 = $2 + 1
+	8   : x = $3
+	9   : $4 = n + 1
+	10   : n = $4
+Block 5:
+	11   : $5 = x / 2
+	12   : x = $5
+	13   : $6 = n + 1
+	14   : n = $6
+	15   : goto 3
+Block 6:
+	16   : iffalse (n == 0)  goto 18
+Block 7:
+	17   : F = 0
+Block 8:
+	18   : iffalse (n == 1)  goto 20
+Block 9:
+	19   : F = 1
+Block 10:
+	20   : iffalse (n >= 2)  goto 32
+Block 11:
+	21   : m = 2
+	22   : Fprev1 = 1
+	23   : Fprev2 = 0
+Block 12:
+	24   : iffalse (m <= n)  goto 32
+Block 13:
+	25   : $7 = Fprev1 + Fprev2
+	26   : F = $7
+	27   : Fprev2 = Fprev1
+	28   : Fprev1 = F
+	29   : $8 = m + 1
+	30   : m = $8
+	31   : goto 24
+	32   :
+
+
+Generating Target codes
+Block 1:
+	1    : LDI R0 2024
+	        ST x R0
+	2    : LDI R1 0
+	        ST n R1
+Block 2:
+	3    : LDI R0 1
+	        JEQ R0 1 16
+Block 3:
+	4    : LDI R1 2
+	        REM R0 R1
+	5    : LDI R2 1
+	        JEQ R2 1 11
+Block 4:
+	6    : LDI R1 3
+	        MUL R1 R0
+	7    : LDI R3 1
+	        ADD R2 R3
+	8    : ST x R4
+	9    : LDI R5 1
+	        ADD R5 R5
+	10    : ST n R5
+Block 5:
+	11    : LDI R1 2
+	        DIV R0 R1
+	12    : ST x R2
+	13    : LDI R3 1
+	        ADD R5 R3
+	14    : ST n R4
+	15    : JMP 3
+Block 6:
+	16    : LDI R5 0
+	        JEQ R5 0 18
+Block 7:
+	17    : LDI R0 0
+	        ST F R0
+Block 8:
+	18    : LDI R5 1
+	        JEQ R5 1 20
+Block 9:
+	19    : LDI R0 1
+	        ST F R0
+Block 10:
+	20    : LDI R5 2
+	        JEQ R5 2 32
+Block 11:
+	21    : LDI R0 2
+	        ST m R0
+	22    : LDI R1 1
+	        ST Fprev1 R1
+	23    : LDI R2 0
+	        ST Fprev2 R2
+Block 12:
+	24    : LD R0 m
+	        LD R5 n
+	        JEQ R0 R5 32
+Block 13:
+	25    : LD R0 Fprev1
+	        LD R1 Fprev2
+	        ADD R0 R1
+	26    : ST F R3
+	27    : ST Fprev2 R4
+	28    : ST Fprev1 R5
+	29    : LDI R5 1
+	        ADD R5 R5
+	30    : ST m R5
+	31    : JMP 24
