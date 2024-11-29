@@ -476,13 +476,13 @@ EXPR:
         bool reg_mem_storage;
         if (strcmp($3.type, "EXPR") == 0 && strcmp($4.type, "EXPR") == 0) {
             // printf("check-1");
-            printf("R[%d] = pwr(R[%d],  R[%d];\n", $3.reg, $3.reg, $4.reg);
+            printf("R[%d] = pwr(R[%d],  R[%d]);\n", $3.reg, $3.reg, $4.reg);
             // make_register_free($3.reg);
             make_register_free($4.reg);
             $$.reg=$3.reg;
         }else if (strcmp($3.type, "NUM") == 0 && strcmp($4.type, "NUM") == 0) {
             reg = get_first_free_register(&reg_mem_storage);
-            printf("R[%d] = pwr(%d, %d;\n", reg, $3.reg, $4.reg);
+            printf("R[%d] = pwr(%d, %d);\n", reg, $3.reg, $4.reg);
             $$.reg=reg;
         } 
         else if (strcmp($3.type, "ID") == 0 && strcmp($4.type, "ID") == 0) {
